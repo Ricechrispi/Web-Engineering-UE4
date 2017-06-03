@@ -625,11 +625,10 @@ var httpsServer  = https.createServer(options, app).listen(8082, function() {
 	 
 	"use strict";
    
-	
 	var host = httpsServer.address().address;
     var port = httpsServer.address().port;
 
-    console.log("Big Smart Home Server also listening at http://%s:%s", host, port);
+    console.log("Big Smart Home Server also listening at https://%s:%s", host, port);
 
 	
 });
