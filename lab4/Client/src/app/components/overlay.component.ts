@@ -185,7 +185,7 @@ export class OverlayComponent implements OnInit {
 	  
 	  
 	  
-	  var finalurl = "http://dbpedia.org/sparql?query=" + encodeURIComponent(query) + "&format=json";
+	  var finalurl = "https://dbpedia.org/sparql?query=" + encodeURIComponent(query) + "&format=json";
 	  
       var xmlhttpr = new XMLHttpRequest();
 	  xmlhttpr.open('POST', finalurl);
