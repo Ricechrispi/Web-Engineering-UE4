@@ -22,20 +22,12 @@ export class DeviceService {
               private accessService: AccessService) {
   }
 
-  //TODO Passen Sie die URLs zu Ihrer REST-Schnittstelle, entsprechend der von Ihnen vorgenommenen Änderungen am Server, an
+  //DONE Passen Sie die URLs zu Ihrer REST-Schnittstelle, entsprechend der von Ihnen vorgenommenen Änderungen am Server, an
 
-	
   private listDevicesURL = 'https://localhost:8082/listDevices';
   private updateDeviceURL = 'https://localhost:8082/updateDevice';
   private deleteDeviceURL = 'https://localhost:8082/deleteDevice';
   private createDeviceURL = 'https://localhost:8082/createDevice';
-
-	/*
-  private listDevicesURL = 'http://localhost:8081/listDevices';
-  private updateDeviceURL = 'http://localhost:8081/updateDevice';
-  private deleteDeviceURL = 'http://localhost:8081/deleteDevice';
-  private createDeviceURL = 'http://localhost:8081/createDevice';
-	*/
 
   private connection: WebSocket = null;
 

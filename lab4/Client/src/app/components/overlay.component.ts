@@ -101,7 +101,11 @@ export class OverlayComponent implements OnInit {
         device.description = "Genauere Informationen zu dieser Webcam";
         break;
       default:
-        //TODO Lesen Sie die SPARQL - Informationen aus dem SessionStorage und speichern Sie die entsprechenden Informationen zum Gerät
+        //DONE Lesen Sie die SPARQL - Informationen aus dem SessionStorage und speichern Sie die entsprechenden Informationen zum Gerät
+		device.image = sessionStorage.getItem(this.selected_type);
+        device.image_alt = device.type_name+" als Indikator für Status";
+        device.description = "Genauere Informationen zu diesem zusätzlichen Gerät";
+
         break;
     }
 
@@ -162,7 +166,48 @@ export class OverlayComponent implements OnInit {
 
 
   getSPARQLTypes(): void {
-    //TODO Lesen Sie mittels SPARQL die gewünschten Daten (wie in der Angabe beschrieben) aus und speichern Sie diese im SessionStorage
+    //DONE Lesen Sie mittels SPARQL die gewünschten Daten (wie in der Angabe beschrieben) aus und speichern Sie diese im SessionStorage
+	  var query=["prefix cat: <http://dbpedia.org/resource/Category:>", //various prefixes
+          "prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>",
+          "prefix owl: <http://www.w3.org/2002/07/owl#>",
+          "prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>",
+          "prefix dbo: <http://dbpedia.org/ontology/>",
+          "select distinct ?label ?url ", //distinct to avoid duplicates
+		  "where {",
+          "?s ?p cat:Home_automation .", //specified category
+          "?s rdf:type owl:Thing .",	//specified type "Thing"
+		  "?x dbo:product ?s .",		//specified property, => created by a firm	 
+          "?s rdfs:label ?label .",		//label we want
+          "?s dbo:thumbnail ?url .",	//url we want is the link of the thumbnail
+          "filter (lang(?label)='de')", //filtering language tag
+          "}",
+          "order by ?p"].join(" ");
+	  
+	  
+	  
+	  var finalurl = "http://dbpedia.org/sparql?query=" + encodeURIComponent(query) + "&format=json";
+	  
+      var xmlhttpr = new XMLHttpRequest();
+	  xmlhttpr.open('POST', finalurl);
+
+      var outerThis = this; //so we can refrence it later
+
+      xmlhttpr.onload = function() {
+          var data = JSON.parse(this.responseText); 
+		  
+			//for every result we extract its label and url, and then push the label to the list of device_types
+		  	//and the we save it in the sessionStorage
+          for (var i = 0; i < data.results.bindings.length; i++) {
+            var obj = data.results.bindings[i];	
+            var label = obj.label.value;
+            var url = obj.url.value;
+
+            outerThis.device_types.push(label);
+            sessionStorage.setItem(label, url);
+          }
+      };
+      xmlhttpr.send(); //this actually sends the query
+			
   }
 
 

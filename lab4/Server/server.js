@@ -599,8 +599,6 @@ function getTwitterPublicationString(groupNum, uuid, date) {
  * @type {http.Server}
  */
 
-	//TODO
-
 
 var server = app.listen(8081, function () {
 
@@ -624,11 +622,9 @@ var options = {
 var httpsServer  = https.createServer(options, app).listen(8082, function() {
 	 
 	"use strict";
-   
 	var host = httpsServer.address().address;
     var port = httpsServer.address().port;
 
     console.log("Big Smart Home Server also listening at https://%s:%s", host, port);
 
-	
 });
