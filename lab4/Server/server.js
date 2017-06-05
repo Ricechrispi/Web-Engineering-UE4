@@ -615,8 +615,8 @@ var server = app.listen(8081, function () {
 }); 
 
 var options = {
-	key: fs.readFileSync('device.key'),
-	cert: fs.readFileSync('device.crt')
+	key: fs.readFileSync('cert/device.key'),
+	cert: fs.readFileSync('cert/device.crt')
 };
 
 var httpsServer  = https.createServer(options, app).listen(8082, function() {
